@@ -1,0 +1,10 @@
+# This file contains build requirements that get picked up but are
+# undesirable. One entry per line, no whitespace.
+go-github.com-fsnotify-fsnotify
+go-github.com-godbus-dbus
+go-github.com-natefinch-npipe
+go-golang.org-x-sys
+go-gopkg.in-natefinch-npipe.v2
+apache-ant
+buildreq-golang
+buildreq-mvn

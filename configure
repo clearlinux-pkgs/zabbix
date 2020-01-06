@@ -1,0 +1,7 @@
+--enable-server
+--enable-proxy
+--with-mysql
+--enable-agent
+--disable-agent2
+--disable-java
+--enable-ipv6
