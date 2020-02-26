@@ -4,10 +4,11 @@
 #
 Name     : zabbix
 Version  : 4.4.5
-Release  : 4
+Release  : 5
 URL      : https://github.com/zabbix/zabbix/archive/4.4.5.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/4.4.5.tar.gz
 Source1  : zabbix-agent.service
+Source2  : zabbix-server.service
 Summary  : Network and application monitoring tool.
 Group    : Development/Tools
 License  : Apache-2.0 GPL-2.0
@@ -90,7 +91,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582760292
+export SOURCE_DATE_EPOCH=1582760724
 export GCC_IGNORE_WERROR=1
 export GOPROXY=file:///usr/share/goproxy
 export AR=gcc-ar
@@ -117,7 +118,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1582760292
+export SOURCE_DATE_EPOCH=1582760724
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-4.4.5/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2
@@ -126,6 +127,7 @@ cp %{_builddir}/zabbix-4.4.5/templates/media/mattermost/LICENSE-APACHE2 %{buildr
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/zabbix-agent.service
+install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/zabbix-server.service
 
 %files
 %defattr(-,root,root,-)
@@ -146,6 +148,7 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/zabbix-agent.serv
 %files extras-client
 %defattr(-,root,root,-)
 /usr/bin/zabbix_agentd
+/usr/lib/systemd/system/zabbix-agent.service
 
 %files license
 %defattr(0644,root,root,0755)
@@ -163,4 +166,4 @@ install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/zabbix-agent.serv
 
 %files services
 %defattr(-,root,root,-)
-/usr/lib/systemd/system/zabbix-agent.service
+/usr/lib/systemd/system/zabbix-server.service

@@ -1,0 +1,9 @@
+[Unit]
+Description=Zabbix Server
+After=syslog.target network.target mysqld.service
+
+[Service]
+ExecStart=/usr/bin/zabbix_server -f
+
+[Install]
+WantedBy=multi-user.target

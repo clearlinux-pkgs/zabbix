@@ -1,1 +1,2 @@
+/usr/lib/systemd/system/zabbix-agent.service
 /usr/bin/zabbix_agentd
