@@ -1,0 +1,12 @@
+# produce template DB data
+mkdir -p %{buildroot}/usr/share/zabbix
+
+make -C database/mysql/ schema.sql data.sql
+gzip < database/mysql/schema.sql > %{buildroot}/usr/share/zabbix/mysql-schema.sql.gz
+gzip < database/mysql/data.sql > %{buildroot}/usr/share/zabbix/mysql-data.sql.gz
+gzip < database/mysql/images.sql > %{buildroot}/usr/share/zabbix/mysql-images.sql.gz
+
+make -C database/sqlite3 schema.sql data.sql
+gzip < database/sqlite3/schema.sql > %{buildroot}/usr/share/zabbix/sqlite3-schema.sql.gz
+gzip < database/sqlite3/data.sql > %{buildroot}/usr/share/zabbix/sqlite3-data.sql.gz
+gzip < database/sqlite3/images.sql > %{buildroot}/usr/share/zabbix/sqlite3-images.sql.gz
