@@ -4,15 +4,17 @@
 #
 Name     : zabbix
 Version  : 4.4.6
-Release  : 9
+Release  : 12
 URL      : https://github.com/zabbix/zabbix/archive/4.4.6.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/4.4.6.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
+Source3  : zabbix.tmpfiles
 Summary  : Network and application monitoring tool.
 Group    : Development/Tools
 License  : Apache-2.0 GPL-2.0
 Requires: zabbix-bin = %{version}-%{release}
+Requires: zabbix-config = %{version}-%{release}
 Requires: zabbix-data = %{version}-%{release}
 Requires: zabbix-license = %{version}-%{release}
 Requires: zabbix-man = %{version}-%{release}
@@ -34,11 +36,20 @@ Zabbix is free software, released under the GNU General Public License
 Summary: bin components for the zabbix package.
 Group: Binaries
 Requires: zabbix-data = %{version}-%{release}
+Requires: zabbix-config = %{version}-%{release}
 Requires: zabbix-license = %{version}-%{release}
 Requires: zabbix-services = %{version}-%{release}
 
 %description bin
 bin components for the zabbix package.
+
+
+%package config
+Summary: config components for the zabbix package.
+Group: Default
+
+%description config
+config components for the zabbix package.
 
 
 %package data
@@ -91,7 +102,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1582929230
+export SOURCE_DATE_EPOCH=1582930829
 export GCC_IGNORE_WERROR=1
 export GOPROXY=file:///usr/share/goproxy
 export AR=gcc-ar
@@ -118,7 +129,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1582929230
+export SOURCE_DATE_EPOCH=1582930829
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-4.4.6/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2
@@ -128,6 +139,8 @@ cp %{_builddir}/zabbix-4.4.6/templates/media/mattermost/LICENSE-APACHE2 %{buildr
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/zabbix-agent.service
 install -m 0644 %{SOURCE2} %{buildroot}/usr/lib/systemd/system/zabbix-server.service
+mkdir -p %{buildroot}/usr/lib/tmpfiles.d
+install -m 0644 %{SOURCE3} %{buildroot}/usr/lib/tmpfiles.d/zabbix.conf
 ## install_append content
 # produce template DB data
 mkdir -p %{buildroot}/usr/share/zabbix
@@ -153,6 +166,10 @@ gzip < database/sqlite3/images.sql > %{buildroot}/usr/share/zabbix/sqlite3-image
 /usr/bin/zabbix_proxy
 /usr/bin/zabbix_sender
 /usr/bin/zabbix_server
+
+%files config
+%defattr(-,root,root,-)
+/usr/lib/tmpfiles.d/zabbix.conf
 
 %files data
 %defattr(-,root,root,-)

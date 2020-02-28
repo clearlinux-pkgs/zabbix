@@ -14,7 +14,7 @@ diff --git a/conf/zabbix_agentd.conf b/conf/zabbix_agentd.conf
 index 537bcc1..de27d19 100644
 --- a/conf/zabbix_agentd.conf
 +++ b/conf/zabbix_agentd.conf
-@@ -1,418 +1,3 @@
+@@ -1,418 +1,4 @@
 -# This is a configuration file for Zabbix agent daemon (Unix)
 -# To get more information about Zabbix, visit http://www.zabbix.com
 -
@@ -433,9 +433,10 @@ index 537bcc1..de27d19 100644
 -# Mandatory: no
 -# Default:
 -# TLSPSKFile=
-+PidFile=/run/zabbix_agentd.pid
++PidFile=/run/zabbix/zabbix_agentd.pid
 +LogType=system
-+Include=/etc/zabbix/zabbix_agentd.conf
++ListenIP=127.0.0.1
++Include=/etc/zabbix_agentd.conf
 diff --git a/conf/zabbix_server.conf b/conf/zabbix_server.conf
 index b7bc5ed..c70c3cc 100644
 --- a/conf/zabbix_server.conf
@@ -1164,9 +1165,9 @@ index b7bc5ed..c70c3cc 100644
 -# Default:
 -# TLSKeyFile=
 +LogType=system
-+PidFile=/run/zabbix_server.pid
-+Include=/etc/zabbix_server.conf.d/*.conf
++PidFile=/run/zabbix/zabbix_server.pid
 +ListenIP=127.0.0.1
++Include=/etc/zabbix_server.conf.d/*.conf
 diff --git a/src/zabbix_agent/Makefile.am b/src/zabbix_agent/Makefile.am
 index 4684c3c..b1b7d30 100644
 --- a/src/zabbix_agent/Makefile.am
