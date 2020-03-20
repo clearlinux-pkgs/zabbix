@@ -4,6 +4,7 @@ After=syslog.target network.target
 
 [Service]
 ExecStart=/usr/sbin/zabbix_agentd -f
+RuntimeDirectory=zabbix
 User=zabbix
 PrivateTmp=yes
 
