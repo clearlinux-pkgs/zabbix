@@ -5,3 +5,7 @@
 --disable-agent2
 --disable-java
 --enable-ipv6
+--with-openssl
+--with-libxml2
+--with-ssh2
+--with-unixodbc

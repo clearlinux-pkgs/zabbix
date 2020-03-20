@@ -4,7 +4,7 @@
 #
 Name     : zabbix
 Version  : 4.4.6
-Release  : 13
+Release  : 15
 URL      : https://github.com/zabbix/zabbix/archive/4.4.6.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/4.4.6.tar.gz
 Source1  : zabbix-agent.service
@@ -19,12 +19,16 @@ Requires: zabbix-data = %{version}-%{release}
 Requires: zabbix-license = %{version}-%{release}
 Requires: zabbix-man = %{version}-%{release}
 Requires: zabbix-services = %{version}-%{release}
+BuildRequires : curl-dev
+BuildRequires : libxml2-dev
 BuildRequires : mariadb-dev
 BuildRequires : mariadb-extras-clientlib
 BuildRequires : openldap-dev
 BuildRequires : openssl-dev
 BuildRequires : pkgconfig(libevent)
 BuildRequires : pkgconfig(libpcre)
+BuildRequires : pkgconfig(libssh2)
+BuildRequires : unixODBC-dev
 BuildRequires : zlib-dev
 Patch1: 0001-Use-default-hardcoded-config-files-with-Include-stat.patch
 
@@ -102,7 +106,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1584674557
+export SOURCE_DATE_EPOCH=1584681332
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -117,7 +121,11 @@ export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 --enable-agent \
 --disable-agent2 \
 --disable-java \
---enable-ipv6
+--enable-ipv6 \
+--with-openssl \
+--with-libxml2 \
+--with-ssh2 \
+--with-unixodbc
 make  %{?_smp_mflags}
 
 %check
@@ -128,7 +136,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1584674557
+export SOURCE_DATE_EPOCH=1584681332
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-4.4.6/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2

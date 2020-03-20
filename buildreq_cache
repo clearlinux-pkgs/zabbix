@@ -1,3 +1,6 @@
 4.4.6
+curl-dev
+libxml2-dev
 openldap-dev
+unixODBC-dev
 zlib-dev
