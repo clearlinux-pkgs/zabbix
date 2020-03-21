@@ -3,3 +3,5 @@
 mariadb-dev
 mariadb-extras-clientlib
 openssl-dev
+net-snmp
+net-snmp-dev

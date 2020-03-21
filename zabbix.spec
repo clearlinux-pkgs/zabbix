@@ -4,7 +4,7 @@
 #
 Name     : zabbix
 Version  : 4.4.6
-Release  : 16
+Release  : 17
 URL      : https://github.com/zabbix/zabbix/archive/4.4.6.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/4.4.6.tar.gz
 Source1  : zabbix-agent.service
@@ -23,14 +23,18 @@ BuildRequires : curl-dev
 BuildRequires : libxml2-dev
 BuildRequires : mariadb-dev
 BuildRequires : mariadb-extras-clientlib
+BuildRequires : net-snmp
+BuildRequires : net-snmp-dev
 BuildRequires : openldap-dev
 BuildRequires : openssl-dev
+BuildRequires : pkgconfig(OpenIPMI)
 BuildRequires : pkgconfig(libevent)
 BuildRequires : pkgconfig(libpcre)
 BuildRequires : pkgconfig(libssh2)
 BuildRequires : unixODBC-dev
 BuildRequires : zlib-dev
 Patch1: 0001-Use-default-hardcoded-config-files-with-Include-stat.patch
+Patch2: 0002-Disable-DES-support-net-snmp-does-not-support-it-any.patch
 
 %description
 Zabbix is free software, released under the GNU General Public License
@@ -100,13 +104,14 @@ services components for the zabbix package.
 %setup -q -n zabbix-4.4.6
 cd %{_builddir}/zabbix-4.4.6
 %patch1 -p1
+%patch2 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1584746437
+export SOURCE_DATE_EPOCH=1584758793
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -125,7 +130,9 @@ export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
 --with-openssl \
 --with-libxml2 \
 --with-ssh2 \
---with-unixodbc
+--with-unixodbc \
+--with-net-snmp \
+--with-openipmi
 make  %{?_smp_mflags}
 
 %check
@@ -136,7 +143,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1584746437
+export SOURCE_DATE_EPOCH=1584758793
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-4.4.6/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2

@@ -1,1 +1,2 @@
 0001-Use-default-hardcoded-config-files-with-Include-stat.patch
+0002-Disable-DES-support-net-snmp-does-not-support-it-any.patch
