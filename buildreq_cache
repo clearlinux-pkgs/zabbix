@@ -1,6 +1,4 @@
-4.4.6
-curl-dev
-libxml2-dev
+4.4.8
 openldap-dev
+pkgconfig(libxml-2.0)
 unixODBC-dev
-zlib-dev
