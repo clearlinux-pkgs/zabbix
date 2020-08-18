@@ -7,7 +7,7 @@ libdl.so.2
 libevent-2.1.so.7
 libm.so.6
 libmariadb.so.3
-libnetsnmp.so.35
+libnetsnmp.so.40
 libodbc.so.2
 libpcre.so.1
 libpthread.so.0

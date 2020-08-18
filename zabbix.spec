@@ -4,7 +4,7 @@
 #
 Name     : zabbix
 Version  : 4.4.8
-Release  : 18
+Release  : 19
 URL      : https://github.com/zabbix/zabbix/archive/4.4.8/zabbix-4.4.8.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/4.4.8/zabbix-4.4.8.tar.gz
 Source1  : zabbix-agent.service
@@ -109,7 +109,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1588182598
+export SOURCE_DATE_EPOCH=1597772130
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -138,10 +138,10 @@ export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1588182598
+export SOURCE_DATE_EPOCH=1597772130
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-4.4.8/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2
