@@ -1,83 +1,30 @@
-Configure miss: mtent.h usability
-Configure miss: mtent.h presence
 Configure miss: mtent.h
-Configure miss: sys/pstat.h usability
-Configure miss: sys/pstat.h presence
-Configure miss: sys/vmmeter.h usability
-Configure miss: sys/vmmeter.h presence
 Configure miss: sys/vmmeter.h
-Configure miss: vm/vm_param.h usability
-Configure miss: vm/vm_param.h presence
 Configure miss: vm/vm_param.h
-Configure miss: kstat.h usability
-Configure miss: kstat.h presence
 Configure miss: kstat.h
-Configure miss: mach/host_info.h usability
-Configure miss: mach/host_info.h presence
 Configure miss: mach/host_info.h
-Configure miss: mach/mach_host.h usability
-Configure miss: mach/mach_host.h presence
 Configure miss: mach/mach_host.h
-Configure miss: knlist.h usability
-Configure miss: knlist.h presence
 Configure miss: knlist.h
-Configure miss: sys/var.h usability
-Configure miss: sys/var.h presence
 Configure miss: sys/var.h
-Configure miss: sys/dkstat.h usability
-Configure miss: sys/dkstat.h presence
 Configure miss: sys/dkstat.h
-Configure miss: sys/sched.h usability
-Configure miss: sys/sched.h presence
 Configure miss: sys/sched.h
-Configure miss: zone.h usability
-Configure miss: zone.h presence
 Configure miss: zone.h
-Configure miss: nlist.h usability
-Configure miss: nlist.h presence
 Configure miss: nlist.h
-Configure miss: kvm.h usability
-Configure miss: kvm.h presence
 Configure miss: kvm.h
-Configure miss: procinfo.h usability
-Configure miss: procinfo.h presence
 Configure miss: procinfo.h
-Configure miss: sys/dk.h usability
-Configure miss: sys/dk.h presence
 Configure miss: sys/dk.h
-Configure miss: process.h usability
-Configure miss: process.h presence
-Configure miss: conio.h usability
-Configure miss: conio.h presence
 Configure miss: conio.h
-Configure miss: winsock2.h usability
-Configure miss: winsock2.h presence
-Configure miss: pdh.h usability
-Configure miss: pdh.h presence
 Configure miss: pdh.h
-Configure miss: psapi.h usability
-Configure miss: psapi.h presence
 Configure miss: psapi.h
-Configure miss: Winldap.h usability
-Configure miss: Winldap.h presence
 Configure miss: Winldap.h
-Configure miss: Winber.h usability
-Configure miss: Winber.h presence
 Configure miss: Winber.h
-Configure miss: ws2tcpip.h usability
-Configure miss: ws2tcpip.h presence
 Configure miss: ws2tcpip.h
-Configure miss: sys/systemcfg.h usability
-Configure miss: sys/systemcfg.h presence
 Configure miss: sys/systemcfg.h
-Configure miss: sys/mnttab.h usability
-Configure miss: sys/mnttab.h presence
 Configure miss: sys/mnttab.h
-Configure miss: sys/protosw.h usability
-Configure miss: sys/protosw.h presence
 Configure miss: sys/protosw.h
 Configure miss: net/if_mib.h
 Configure miss: sys/proc.h
+Configure miss: sys/sysctl.h
 Configure miss: devstat.h
 Configure miss: libperfstat.h
 Configure miss: library containing kstat_open
@@ -94,6 +41,7 @@ Configure miss: struct swaptable in sys/swap.h
 Configure miss: struct sensordev in sys/sensors.h
 Configure miss: struct statvfs64 in sys/statvfs.h
 Configure miss: struct statfs64 in sys/statfs.h
+Configure miss: field updates in struct vminfo_t
 Configure miss: function setproctitle()
 Configure miss: function sysctlbyname()
 Configure miss: function sysctl (KERN_BOOTTIME)
@@ -105,4 +53,5 @@ Configure miss: file /proc/0/psinfo
 Configure miss: long long format
 Configure miss: libperfstat 5.2.0.40 fileset
 Configure miss: libperfstat 5.3.0.60 fileset
+Configure miss: TLS support in MySQL library
 Configure miss: Oracle support

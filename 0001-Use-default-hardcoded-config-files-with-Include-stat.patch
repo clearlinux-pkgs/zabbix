@@ -1,20 +1,20 @@
-From 6d04a53a40eb78605df2a4c9e43e383a72ded8bd Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Wed, 26 Feb 2020 15:19:17 -0800
 Subject: [PATCH] Use default, hardcoded config files with Include statements.
 
 ---
- conf/zabbix_agentd.conf       | 421 +-------------------
- conf/zabbix_server.conf       | 725 +---------------------------------
+ conf/zabbix_agentd.conf       | 517 +-------------------
+ conf/zabbix_server.conf       | 875 +---------------------------------
  src/zabbix_agent/Makefile.am  |   6 +-
  src/zabbix_server/Makefile.am |   6 +-
- 4 files changed, 12 insertions(+), 1146 deletions(-)
+ 4 files changed, 14 insertions(+), 1390 deletions(-)
 
 diff --git a/conf/zabbix_agentd.conf b/conf/zabbix_agentd.conf
-index 537bcc1..de27d19 100644
+index 12afc72..e54e47b 100644
 --- a/conf/zabbix_agentd.conf
 +++ b/conf/zabbix_agentd.conf
-@@ -1,418 +1,4 @@
+@@ -1,513 +1,4 @@
 -# This is a configuration file for Zabbix agent daemon (Unix)
 -# To get more information about Zabbix, visit http://www.zabbix.com
 -
@@ -76,14 +76,33 @@ index 537bcc1..de27d19 100644
 -# Default:
 -# SourceIP=
 -
--### Option: EnableRemoteCommands
--#	Whether remote commands from Zabbix server are allowed.
--#	0 - not allowed
--#	1 - allowed
+-### Option: AllowKey
+-#	Allow execution of item keys matching pattern.
+-#	Multiple keys matching rules may be defined in combination with DenyKey.
+-#	Key pattern is wildcard expression, which support "*" character to match any number of any characters in certain position. It might be used in both key name and key arguments.
+-#	Parameters are processed one by one according their appearance order.
+-#	If no AllowKey or DenyKey rules defined, all keys are allowed.
+-#
+-# Mandatory: no
+-
+-### Option: DenyKey
+-#	Deny execution of items keys matching pattern.
+-#	Multiple keys matching rules may be defined in combination with AllowKey.
+-#	Key pattern is wildcard expression, which support "*" character to match any number of any characters in certain position. It might be used in both key name and key arguments.
+-#	Parameters are processed one by one according their appearance order.
+-#	If no AllowKey or DenyKey rules defined, all keys are allowed.
+-#       Unless another system.run[*] rule is specified DenyKey=system.run[*] is added by default.
 -#
 -# Mandatory: no
 -# Default:
--# EnableRemoteCommands=0
+-# DenyKey=system.run[*]
+-
+-### Option: EnableRemoteCommands - Deprecated, use AllowKey=system.run[*] or DenyKey=system.run[*] instead
+-#	Internal alias for AllowKey/DenyKey parameters depending on value:
+-#	0 - DenyKey=system.run[*]
+-#	1 - AllowKey=system.run[*]
+-#
+-# Mandatory: no
 -
 -### Option: LogRemoteCommands
 -#	Enable logging of executed shell commands as warnings.
@@ -152,8 +171,8 @@ index 537bcc1..de27d19 100644
 -ServerActive=127.0.0.1
 -
 -### Option: Hostname
--#	Unique, case sensitive hostname.
--#	Required for active checks and must match hostname as configured on the server.
+-#	List of comma delimited unique, case sensitive hostnames.
+-#	Required for active checks and must match hostnames as configured on the server.
 -#	Value is acquired from HostnameItem if undefined.
 -#
 -# Mandatory: no
@@ -328,6 +347,16 @@ index 537bcc1..de27d19 100644
 -# Default:
 -# UserParameter=
 -
+-### Option: UserParameterDir
+-#	Directory to execute UserParameter commands from. Only one entry is allowed.
+-#	When executing UserParameter commands the agent will change the working directory to the one
+-#	specified in the UserParameterDir option.
+-#	This way UserParameter commands can be specified using the relative ./ prefix.
+-#
+-# Mandatory: no
+-# Default:
+-# UserParameterDir=
+-
 -####### LOADABLE MODULES #######
 -
 -### Option: LoadModulePath
@@ -433,15 +462,81 @@ index 537bcc1..de27d19 100644
 -# Mandatory: no
 -# Default:
 -# TLSPSKFile=
+-
+-####### For advanced users - TLS ciphersuite selection criteria #######
+-
+-### Option: TLSCipherCert13
+-#	Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+-#	Override the default ciphersuite selection criteria for certificate-based encryption.
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherCert13=
+-
+-### Option: TLSCipherCert
+-#	GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+-#	Override the default ciphersuite selection criteria for certificate-based encryption.
+-#	Example for GnuTLS:
+-#		NONE:+VERS-TLS1.2:+ECDHE-RSA:+RSA:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL:+CTYPE-X.509
+-#	Example for OpenSSL:
+-#		EECDH+aRSA+AES128:RSA+aRSA+AES128
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherCert=
+-
+-### Option: TLSCipherPSK13
+-#	Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+-#	Override the default ciphersuite selection criteria for PSK-based encryption.
+-#	Example:
+-#		TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherPSK13=
+-
+-### Option: TLSCipherPSK
+-#	GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+-#	Override the default ciphersuite selection criteria for PSK-based encryption.
+-#	Example for GnuTLS:
+-#		NONE:+VERS-TLS1.2:+ECDHE-PSK:+PSK:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL
+-#	Example for OpenSSL:
+-#		kECDHEPSK+AES128:kPSK+AES128
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherPSK=
+-
+-### Option: TLSCipherAll13
+-#	Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+-#	Override the default ciphersuite selection criteria for certificate- and PSK-based encryption.
+-#	Example:
+-#		TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherAll13=
+-
+-### Option: TLSCipherAll
+-#	GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+-#	Override the default ciphersuite selection criteria for certificate- and PSK-based encryption.
+-#	Example for GnuTLS:
+-#		NONE:+VERS-TLS1.2:+ECDHE-RSA:+RSA:+ECDHE-PSK:+PSK:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL:+CTYPE-X.509
+-#	Example for OpenSSL:
+-#		EECDH+aRSA+AES128:RSA+aRSA+AES128:kECDHEPSK+AES128:kPSK+AES128
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherAll=
 +PidFile=/run/zabbix/zabbix_agentd.pid
 +LogType=system
 +ListenIP=127.0.0.1
 +Include=/etc/zabbix_agentd.conf
 diff --git a/conf/zabbix_server.conf b/conf/zabbix_server.conf
-index b7bc5ed..c70c3cc 100644
+index 88b1e53..e6c3efa 100644
 --- a/conf/zabbix_server.conf
 +++ b/conf/zabbix_server.conf
-@@ -1,722 +1,4 @@
+@@ -1,871 +1,4 @@
 -# This is a configuration file for Zabbix server daemon
 -# To get more information about Zabbix, visit http://www.zabbix.com
 -
@@ -538,7 +633,7 @@ index b7bc5ed..c70c3cc 100644
 -DBName=zabbix
 -
 -### Option: DBSchema
--#	Schema name. Used for IBM DB2 and PostgreSQL.
+-#	Schema name. Used for PostgreSQL.
 -#
 -# Mandatory: no
 -# Default:
@@ -841,7 +936,7 @@ index b7bc5ed..c70c3cc 100644
 -#	Shared memory size for storing host, item and trigger data.
 -#
 -# Mandatory: no
--# Range: 128K-8G
+-# Range: 128K-64G
 -# Default:
 -# CacheSize=8M
 -
@@ -1089,7 +1184,7 @@ index b7bc5ed..c70c3cc 100644
 -### Option: SSLCALocation
 -#	Override the location of certificate authority (CA) files for SSL server certificate verification.
 -#	If not set, system-wide directory will be used.
--#	This parameter is used only in web monitoring and SMTP authentication.
+-#	This parameter is used in web monitoring, SMTP authentication, HTTP agent items and for communication with Vault.
 -#
 -# Mandatory: no
 -# Default:
@@ -1164,50 +1259,196 @@ index b7bc5ed..c70c3cc 100644
 -# Mandatory: no
 -# Default:
 -# TLSKeyFile=
+-
+-####### For advanced users - TLS ciphersuite selection criteria #######
+-
+-### Option: TLSCipherCert13
+-#	Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+-#	Override the default ciphersuite selection criteria for certificate-based encryption.
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherCert13=
+-
+-### Option: TLSCipherCert
+-#	GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+-#	Override the default ciphersuite selection criteria for certificate-based encryption.
+-#	Example for GnuTLS:
+-#		NONE:+VERS-TLS1.2:+ECDHE-RSA:+RSA:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL:+CTYPE-X.509
+-#	Example for OpenSSL:
+-#		EECDH+aRSA+AES128:RSA+aRSA+AES128
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherCert=
+-
+-### Option: TLSCipherPSK13
+-#	Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+-#	Override the default ciphersuite selection criteria for PSK-based encryption.
+-#	Example:
+-#		TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherPSK13=
+-
+-### Option: TLSCipherPSK
+-#	GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+-#	Override the default ciphersuite selection criteria for PSK-based encryption.
+-#	Example for GnuTLS:
+-#		NONE:+VERS-TLS1.2:+ECDHE-PSK:+PSK:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL
+-#	Example for OpenSSL:
+-#		kECDHEPSK+AES128:kPSK+AES128
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherPSK=
+-
+-### Option: TLSCipherAll13
+-#	Cipher string for OpenSSL 1.1.1 or newer in TLS 1.3.
+-#	Override the default ciphersuite selection criteria for certificate- and PSK-based encryption.
+-#	Example:
+-#		TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherAll13=
+-
+-### Option: TLSCipherAll
+-#	GnuTLS priority string or OpenSSL (TLS 1.2) cipher string.
+-#	Override the default ciphersuite selection criteria for certificate- and PSK-based encryption.
+-#	Example for GnuTLS:
+-#		NONE:+VERS-TLS1.2:+ECDHE-RSA:+RSA:+ECDHE-PSK:+PSK:+AES-128-GCM:+AES-128-CBC:+AEAD:+SHA256:+SHA1:+CURVE-ALL:+COMP-NULL:+SIGN-ALL:+CTYPE-X.509
+-#	Example for OpenSSL:
+-#		EECDH+aRSA+AES128:RSA+aRSA+AES128:kECDHEPSK+AES128:kPSK+AES128
+-#
+-# Mandatory: no
+-# Default:
+-# TLSCipherAll=
+-
+-### Option: DBTLSConnect
+-#	Setting this option enforces to use TLS connection to database.
+-#	required    - connect using TLS
+-#	verify_ca   - connect using TLS and verify certificate
+-#	verify_full - connect using TLS, verify certificate and verify that database identity specified by DBHost
+-#	              matches its certificate
+-#	On MySQL starting from 5.7.11 and PostgreSQL following values are supported: "required", "verify_ca" and
+-#	"verify_full".
+-#	On MariaDB starting from version 10.2.6 "required" and "verify_full" values are supported.
+-#	Default is not to set any option and behavior depends on database configuration
+-#
+-# Mandatory: no
+-# Default:
+-# DBTLSConnect=
+-
+-### Option: DBTLSCAFile
+-#	Full pathname of a file containing the top-level CA(s) certificates for database certificate verification.
+-#	Supported only for MySQL and PostgreSQL
+-#
+-# Mandatory: no
+-#	(yes, if DBTLSConnect set to one of: verify_ca, verify_full)
+-# Default:
+-# DBTLSCAFile=
+-
+-### Option: DBTLSCertFile
+-#	Full pathname of file containing Zabbix server certificate for authenticating to database.
+-#	Supported only for MySQL and PostgreSQL
+-#
+-# Mandatory: no
+-# Default:
+-# DBTLSCertFile=
+-
+-### Option: DBTLSKeyFile
+-#	Full pathname of file containing the private key for authenticating to database.
+-#	Supported only for MySQL and PostgreSQL
+-#
+-# Mandatory: no
+-# Default:
+-# DBTLSKeyFile=
+-
+-### Option: DBTLSCipher
+-#	The list of encryption ciphers that Zabbix server permits for TLS protocols up through TLSv1.2
+-#	Supported only for MySQL
+-#
+-# Mandatory no
+-# Default:
+-# DBTLSCipher=
+-
+-### Option: DBTLSCipher13
+-#	The list of encryption ciphersuites that Zabbix server permits for TLSv1.3 protocol
+-#	Supported only for MySQL, starting from version 8.0.16
+-#
+-# Mandatory no
+-# Default:
+-# DBTLSCipher13=
+-
+-### Option: VaultToken
+-#	Vault authentication token that should have been generated exclusively for Zabbix server with read only permission
+-#	to paths specified in Vault macros and read only permission to path specified in optional VaultDBPath
+-#	configuration parameter.
+-#	It is an error if VaultToken and VAULT_TOKEN environment variable are defined at the same time.
+-#
+-# Mandatory: no
+-# Default:
+-# VaultToken=
+-
+-### Option: VaultURL
+-#	Vault server HTTP[S] URL. System-wide CA certificates directory will be used if SSLCALocation is not specified.
+-#
+-# Mandatory: no
+-# Default:
+-# VaultURL=https://127.0.0.1:8200
+-
+-### Option: VaultDBPath
+-#	Vault path from where credentials for database will be retrieved by keys 'password' and 'username'.
+-#	Example: secret/zabbix/database
+-#	This option can only be used if DBUser and DBPassword are not specified.
+-#
+-# Mandatory: no
+-# Default:
+-# VaultDBPath=
+-
 +LogType=system
 +PidFile=/run/zabbix/zabbix_server.pid
 +ListenIP=127.0.0.1
 +Include=/etc/zabbix_server.conf.d/*.conf
 diff --git a/src/zabbix_agent/Makefile.am b/src/zabbix_agent/Makefile.am
-index 4684c3c..b1b7d30 100644
+index 55aa04c..e72a619 100644
 --- a/src/zabbix_agent/Makefile.am
 +++ b/src/zabbix_agent/Makefile.am
-@@ -57,10 +57,10 @@ zabbix_agentd_LDFLAGS = @AGENT_LDFLAGS@
+@@ -68,10 +68,10 @@ zabbix_agentd_LDFLAGS = $(AGENT_LDFLAGS)
  
  zabbix_agentd_CFLAGS = \
  	-DZABBIX_DAEMON \
--	-DDEFAULT_CONFIG_FILE="\"@AGENT_CONFIG_FILE@\"" \
+-	-DDEFAULT_CONFIG_FILE="\"$(AGENT_CONFIG_FILE)\"" \
 +	-DDEFAULT_CONFIG_FILE="\"/usr/share/defaults/zabbix/zabbix_agentd.conf\"" \
- 	-DDEFAULT_LOAD_MODULE_PATH="\"@LOAD_MODULE_PATH@\""
+ 	-DDEFAULT_LOAD_MODULE_PATH="\"$(LOAD_MODULE_PATH)\""
  
  install-data-hook:
--	$(MKDIR_P) "$(DESTDIR)@AGENT_CONFIG_FILE@.d"
+-	$(MKDIR_P) "$(DESTDIR)$(AGENT_CONFIG_FILE).d"
 +	$(MKDIR_P) "$(DESTDIR)/usr/share/defaults/zabbix"
- 	$(MKDIR_P) "$(DESTDIR)@LOAD_MODULE_PATH@"
--	test -f "$(DESTDIR)@AGENT_CONFIG_FILE@" || cp "../../conf/zabbix_agentd.conf" "$(DESTDIR)@AGENT_CONFIG_FILE@"
-+	test -f "$(DESTDIR)@AGENT_CONFIG_FILE@" || cp "../../conf/zabbix_agentd.conf" "$(DESTDIR)/usr/share/defaults/zabbix/zabbix_agentd.conf"
+ 	$(MKDIR_P) "$(DESTDIR)$(LOAD_MODULE_PATH)"
+-	test -f "$(DESTDIR)$(AGENT_CONFIG_FILE)" || cp "../../conf/zabbix_agentd.conf" "$(DESTDIR)$(AGENT_CONFIG_FILE)"
++	test -f "$(DESTDIR)$(AGENT_CONFIG_FILE)" || cp "../../conf/zabbix_agentd.conf" "$(DESTDIR)/usr/share/defaults/zabbix/zabbix_agentd.conf"
 diff --git a/src/zabbix_server/Makefile.am b/src/zabbix_server/Makefile.am
-index 8d637b7..5389f91 100644
+index 59ccc1f..cef4610 100644
 --- a/src/zabbix_server/Makefile.am
 +++ b/src/zabbix_server/Makefile.am
-@@ -107,14 +107,14 @@ zabbix_server_LDFLAGS = @SERVER_LDFLAGS@
+@@ -114,14 +114,14 @@ zabbix_server_LDFLAGS = $(SERVER_LDFLAGS)
  zabbix_server_CFLAGS = \
- 	-DDEFAULT_SSL_CERT_LOCATION="\"@CURL_SSL_CERT_LOCATION@\"" \
- 	-DDEFAULT_SSL_KEY_LOCATION="\"@CURL_SSL_KEY_LOCATION@\"" \
--	-DDEFAULT_CONFIG_FILE="\"@SERVER_CONFIG_FILE@\"" \
+ 	-DDEFAULT_SSL_CERT_LOCATION="\"$(CURL_SSL_CERT_LOCATION)\"" \
+ 	-DDEFAULT_SSL_KEY_LOCATION="\"$(CURL_SSL_KEY_LOCATION)\"" \
+-	-DDEFAULT_CONFIG_FILE="\"$(SERVER_CONFIG_FILE)\"" \
 +	-DDEFAULT_CONFIG_FILE="\"/usr/share/defaults/zabbix/zabbix_server.conf\"" \
- 	-DDEFAULT_EXTERNAL_SCRIPTS_PATH="\"@EXTERNAL_SCRIPTS_PATH@\"" \
- 	-DDEFAULT_ALERT_SCRIPTS_PATH="\"@ALERT_SCRIPTS_PATH@\"" \
- 	-DDEFAULT_LOAD_MODULE_PATH="\"@LOAD_MODULE_PATH@\""
+ 	-DDEFAULT_EXTERNAL_SCRIPTS_PATH="\"$(EXTERNAL_SCRIPTS_PATH)\"" \
+ 	-DDEFAULT_ALERT_SCRIPTS_PATH="\"$(ALERT_SCRIPTS_PATH)\"" \
+ 	-DDEFAULT_LOAD_MODULE_PATH="\"$(LOAD_MODULE_PATH)\""
  
  install-data-hook:
--	$(MKDIR_P) "$(DESTDIR)@SERVER_CONFIG_FILE@.d"
+-	$(MKDIR_P) "$(DESTDIR)$(SERVER_CONFIG_FILE).d"
 +	$(MKDIR_P) "$(DESTDIR)/usr/share/defaults/zabbix"
- 	$(MKDIR_P) "$(DESTDIR)@EXTERNAL_SCRIPTS_PATH@"
- 	$(MKDIR_P) "$(DESTDIR)@ALERT_SCRIPTS_PATH@"
- 	$(MKDIR_P) "$(DESTDIR)@LOAD_MODULE_PATH@"
--	test -f "$(DESTDIR)@SERVER_CONFIG_FILE@" || cp "../../conf/zabbix_server.conf" "$(DESTDIR)@SERVER_CONFIG_FILE@"
-+	test -f "$(DESTDIR)@SERVER_CONFIG_FILE@" || cp "../../conf/zabbix_server.conf" "$(DESTDIR)/usr/share/defaults/zabbix/zabbix_server.conf"
--- 
-2.25.1
-
+ 	$(MKDIR_P) "$(DESTDIR)$(EXTERNAL_SCRIPTS_PATH)"
+ 	$(MKDIR_P) "$(DESTDIR)$(ALERT_SCRIPTS_PATH)"
+ 	$(MKDIR_P) "$(DESTDIR)$(LOAD_MODULE_PATH)"
+-	test -f "$(DESTDIR)$(SERVER_CONFIG_FILE)" || cp "../../conf/zabbix_server.conf" "$(DESTDIR)$(SERVER_CONFIG_FILE)"
++	test -f "$(DESTDIR)$(SERVER_CONFIG_FILE)" || cp "../../conf/zabbix_server.conf" "$(DESTDIR)/usr/share/defaults/zabbix/zabbix_server.conf"

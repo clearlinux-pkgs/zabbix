@@ -1,4 +1,4 @@
-From 04e9d8fdeab5806c31d505a84e0908a2d57b187d Mon Sep 17 00:00:00 2001
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: Auke Kok <auke-jan.h.kok@intel.com>
 Date: Fri, 20 Mar 2020 19:41:19 -0700
 Subject: [PATCH] Disable DES support - net-snmp does not support it anymore.
@@ -8,7 +8,7 @@ Subject: [PATCH] Disable DES support - net-snmp does not support it anymore.
  1 file changed, 5 deletions(-)
 
 diff --git a/src/zabbix_server/poller/checks_snmp.c b/src/zabbix_server/poller/checks_snmp.c
-index 32c6155..22a0222 100644
+index 4e7186f..02f5e76 100644
 --- a/src/zabbix_server/poller/checks_snmp.c
 +++ b/src/zabbix_server/poller/checks_snmp.c
 @@ -567,11 +567,6 @@ static struct snmp_session	*zbx_snmp_open_session(const DC_ITEM *item, char *err
@@ -23,6 +23,3 @@ index 32c6155..22a0222 100644
  					case ITEM_SNMPV3_PRIVPROTOCOL_AES:
  						/* set the privacy protocol to AES */
  						session.securityPrivProto = usmAESPrivProtocol;
--- 
-2.25.2
-

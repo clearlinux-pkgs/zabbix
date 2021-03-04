@@ -12,5 +12,5 @@ gzip < database/sqlite3/data.sql > %{buildroot}/usr/share/zabbix/sqlite3-data.sq
 gzip < database/sqlite3/images.sql > %{buildroot}/usr/share/zabbix/sqlite3-images.sql.gz
 
 # web frontend
-mkdir -p %{buildroot}/usr/share/zabbix/
-cp -arv frontends/php %{buildroot}/usr/share/zabbix/frontend-php
+mkdir -p %{buildroot}/usr/share/zabbix/frontend-php
+cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
