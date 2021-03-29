@@ -1,0 +1,7 @@
+# If these files disappear from the upstream tree, we want to be warned, so
+# remove them first (without -f) prior to renaming the configuration files
+# added by the patch.
+rm conf/zabbix_agentd.conf
+mv conf/clr-zabbix_agentd.conf conf/zabbix_agentd.conf
+rm conf/zabbix_server.conf
+mv conf/clr-zabbix_server.conf conf/zabbix_server.conf

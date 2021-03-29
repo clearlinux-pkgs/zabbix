@@ -1,57 +1,57 @@
-Configure miss: mtent.h
-Configure miss: sys/vmmeter.h
-Configure miss: vm/vm_param.h
-Configure miss: kstat.h
-Configure miss: mach/host_info.h
-Configure miss: mach/mach_host.h
-Configure miss: knlist.h
-Configure miss: sys/var.h
-Configure miss: sys/dkstat.h
-Configure miss: sys/sched.h
-Configure miss: zone.h
-Configure miss: nlist.h
-Configure miss: kvm.h
-Configure miss: procinfo.h
-Configure miss: sys/dk.h
-Configure miss: conio.h
-Configure miss: pdh.h
-Configure miss: psapi.h
-Configure miss: Winldap.h
+Configure miss: Oracle support
+Configure miss: TLS support in MySQL library
 Configure miss: Winber.h
-Configure miss: ws2tcpip.h
-Configure miss: sys/systemcfg.h
-Configure miss: sys/mnttab.h
-Configure miss: sys/protosw.h
-Configure miss: net/if_mib.h
-Configure miss: sys/proc.h
-Configure miss: sys/sysctl.h
-Configure miss: devstat.h
-Configure miss: libperfstat.h
-Configure miss: library containing kstat_open
-Configure miss: library containing perfstat_memory_total
-Configure miss: library containing devstat_getdevs
-Configure miss: library containing getdevs
-Configure miss: main in -lkvm
-Configure miss: res_ndestroy
-Configure miss: _res._u._ext.ext
+Configure miss: Winldap.h
 Configure miss: _res._ext.ext.nsaddrs
-Configure miss: struct sockaddr_in6.sin6_len
-Configure miss: union semun
-Configure miss: struct swaptable in sys/swap.h
-Configure miss: struct sensordev in sys/sensors.h
-Configure miss: struct statvfs64 in sys/statvfs.h
-Configure miss: struct statfs64 in sys/statfs.h
+Configure miss: _res._u._ext.ext
+Configure miss: conio.h
+Configure miss: devstat.h
 Configure miss: field updates in struct vminfo_t
+Configure miss: file /proc/0/psinfo
 Configure miss: function setproctitle()
-Configure miss: function sysctlbyname()
-Configure miss: function sysctl (KERN_BOOTTIME)
 Configure miss: function sysctl (HW_NCPU)
+Configure miss: function sysctl (KERN_BOOTTIME)
+Configure miss: function sysctl (KERN_CPTIME,KERN_CPTIME2)
 Configure miss: function sysctl (KERN_MAXFILES)
 Configure miss: function sysctl (KERN_MAXPROC)
-Configure miss: function sysctl (KERN_CPTIME,KERN_CPTIME2)
-Configure miss: file /proc/0/psinfo
-Configure miss: long long format
+Configure miss: function sysctlbyname()
+Configure miss: knlist.h
+Configure miss: kstat.h
+Configure miss: kvm.h
 Configure miss: libperfstat 5.2.0.40 fileset
 Configure miss: libperfstat 5.3.0.60 fileset
-Configure miss: TLS support in MySQL library
-Configure miss: Oracle support
+Configure miss: libperfstat.h
+Configure miss: library containing devstat_getdevs
+Configure miss: library containing getdevs
+Configure miss: library containing kstat_open
+Configure miss: library containing perfstat_memory_total
+Configure miss: long long format
+Configure miss: mach/host_info.h
+Configure miss: mach/mach_host.h
+Configure miss: main in -lkvm
+Configure miss: mtent.h
+Configure miss: net/if_mib.h
+Configure miss: nlist.h
+Configure miss: pdh.h
+Configure miss: procinfo.h
+Configure miss: psapi.h
+Configure miss: res_ndestroy
+Configure miss: struct sensordev in sys/sensors.h
+Configure miss: struct sockaddr_in6.sin6_len
+Configure miss: struct statfs64 in sys/statfs.h
+Configure miss: struct statvfs64 in sys/statvfs.h
+Configure miss: struct swaptable in sys/swap.h
+Configure miss: sys/dk.h
+Configure miss: sys/dkstat.h
+Configure miss: sys/mnttab.h
+Configure miss: sys/proc.h
+Configure miss: sys/protosw.h
+Configure miss: sys/sched.h
+Configure miss: sys/sysctl.h
+Configure miss: sys/systemcfg.h
+Configure miss: sys/var.h
+Configure miss: sys/vmmeter.h
+Configure miss: union semun
+Configure miss: vm/vm_param.h
+Configure miss: ws2tcpip.h
+Configure miss: zone.h
