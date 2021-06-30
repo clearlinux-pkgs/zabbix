@@ -36,6 +36,7 @@ Configure miss: pdh.h
 Configure miss: procinfo.h
 Configure miss: psapi.h
 Configure miss: res_ndestroy
+Configure miss: strong AES privacy protocol support
 Configure miss: struct sensordev in sys/sensors.h
 Configure miss: struct sockaddr_in6.sin6_len
 Configure miss: struct statfs64 in sys/statfs.h

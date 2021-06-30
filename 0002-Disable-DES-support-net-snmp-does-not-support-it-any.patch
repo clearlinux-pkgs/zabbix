@@ -8,10 +8,10 @@ Subject: [PATCH] Disable DES support - net-snmp does not support it anymore.
  1 file changed, 5 deletions(-)
 
 diff --git a/src/zabbix_server/poller/checks_snmp.c b/src/zabbix_server/poller/checks_snmp.c
-index 4e7186f..02f5e76 100644
+index 7b7eb2a..9e34d37 100644
 --- a/src/zabbix_server/poller/checks_snmp.c
 +++ b/src/zabbix_server/poller/checks_snmp.c
-@@ -567,11 +567,6 @@ static struct snmp_session	*zbx_snmp_open_session(const DC_ITEM *item, char *err
+@@ -582,11 +582,6 @@ static struct snmp_session	*zbx_snmp_open_session(const DC_ITEM *item, char *err
  
  				switch (item->snmpv3_privprotocol)
  				{
@@ -20,6 +20,6 @@ index 4e7186f..02f5e76 100644
 -						session.securityPrivProto = usmDESPrivProtocol;
 -						session.securityPrivProtoLen = USM_PRIV_PROTO_DES_LEN;
 -						break;
- 					case ITEM_SNMPV3_PRIVPROTOCOL_AES:
- 						/* set the privacy protocol to AES */
+ 					case ITEM_SNMPV3_PRIVPROTOCOL_AES128:
+ 						/* set the privacy protocol to AES128 */
  						session.securityPrivProto = usmAESPrivProtocol;

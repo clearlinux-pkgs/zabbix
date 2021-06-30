@@ -54,10 +54,10 @@ index 55aa04c..e72a619 100644
 -	test -f "$(DESTDIR)$(AGENT_CONFIG_FILE)" || cp "../../conf/zabbix_agentd.conf" "$(DESTDIR)$(AGENT_CONFIG_FILE)"
 +	test -f "$(DESTDIR)$(AGENT_CONFIG_FILE)" || cp "../../conf/zabbix_agentd.conf" "$(DESTDIR)/usr/share/defaults/zabbix/zabbix_agentd.conf"
 diff --git a/src/zabbix_server/Makefile.am b/src/zabbix_server/Makefile.am
-index 59ccc1f..cef4610 100644
+index 834fe8d..ce83bc0 100644
 --- a/src/zabbix_server/Makefile.am
 +++ b/src/zabbix_server/Makefile.am
-@@ -114,14 +114,14 @@ zabbix_server_LDFLAGS = $(SERVER_LDFLAGS)
+@@ -122,14 +122,14 @@ zabbix_server_LDFLAGS = $(SERVER_LDFLAGS)
  zabbix_server_CFLAGS = \
  	-DDEFAULT_SSL_CERT_LOCATION="\"$(CURL_SSL_CERT_LOCATION)\"" \
  	-DDEFAULT_SSL_KEY_LOCATION="\"$(CURL_SSL_KEY_LOCATION)\"" \
