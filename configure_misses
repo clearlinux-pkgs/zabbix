@@ -23,6 +23,7 @@ Configure miss: libperfstat 5.3.0.60 fileset
 Configure miss: libperfstat.h
 Configure miss: library containing devstat_getdevs
 Configure miss: library containing getdevs
+Configure miss: library containing jail_getname
 Configure miss: library containing kstat_open
 Configure miss: library containing perfstat_memory_total
 Configure miss: long long format
