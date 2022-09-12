@@ -4,7 +4,7 @@
 #
 Name     : zabbix
 Version  : 6.2.2
-Release  : 36
+Release  : 37
 URL      : https://github.com/zabbix/zabbix/archive/6.2.2/zabbix-6.2.2.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/6.2.2/zabbix-6.2.2.tar.gz
 Source1  : zabbix-agent.service
