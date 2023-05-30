@@ -5,7 +5,7 @@
 #
 Name     : zabbix
 Version  : 6.4.3
-Release  : 46
+Release  : 47
 URL      : https://github.com/zabbix/zabbix/archive/6.4.3/zabbix-6.4.3.tar.gz
 Source0  : https://github.com/zabbix/zabbix/archive/6.4.3/zabbix-6.4.3.tar.gz
 Source1  : zabbix-agent.service
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685466761
+export SOURCE_DATE_EPOCH=1685477797
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -190,7 +190,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1685466761
+export SOURCE_DATE_EPOCH=1685477797
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2 || :
