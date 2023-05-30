@@ -4,10 +4,10 @@
 # Using build pattern: configure_ac
 #
 Name     : zabbix
-Version  : 6.4.2
-Release  : 45
-URL      : https://github.com/zabbix/zabbix/archive/6.4.2/zabbix-6.4.2.tar.gz
-Source0  : https://github.com/zabbix/zabbix/archive/6.4.2/zabbix-6.4.2.tar.gz
+Version  : 6.4.3
+Release  : 46
+URL      : https://github.com/zabbix/zabbix/archive/6.4.3/zabbix-6.4.3.tar.gz
+Source0  : https://github.com/zabbix/zabbix/archive/6.4.3/zabbix-6.4.3.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
 Source3  : zabbix.tmpfiles
@@ -104,9 +104,12 @@ services components for the zabbix package.
 
 
 %prep
-%setup -q -n zabbix-6.4.2
-cd %{_builddir}/zabbix-6.4.2
+%setup -q -n zabbix-6.4.3
+cd %{_builddir}/zabbix-6.4.3
 %patch1 -p1
+pushd ..
+cp -a zabbix-6.4.3 buildavx2
+popd
 
 %build
 ## build_prepend content
@@ -122,15 +125,15 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1682439765
+export SOURCE_DATE_EPOCH=1685466761
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %reconfigure --disable-static --enable-server \
 --enable-proxy \
 --with-mysql \
@@ -145,6 +148,37 @@ export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonl
 --with-net-snmp \
 --with-openipmi
 make  %{?_smp_mflags}
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+## build_prepend content
+# If these files disappear from the upstream tree, we want to be warned, so
+# remove them first (without -f) prior to renaming the configuration files
+# added by the patch.
+rm conf/zabbix_agentd.conf
+mv conf/clr-zabbix_agentd.conf conf/zabbix_agentd.conf
+rm conf/zabbix_server.conf
+mv conf/clr-zabbix_server.conf conf/zabbix_server.conf
+## build_prepend end
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%reconfigure --disable-static --enable-server \
+--enable-proxy \
+--with-mysql \
+--enable-agent \
+--disable-agent2 \
+--disable-java \
+--enable-ipv6 \
+--with-openssl \
+--with-libxml2 \
+--with-ssh2 \
+--with-unixodbc \
+--with-net-snmp \
+--with-openipmi
+make  %{?_smp_mflags}
+popd
 
 %check
 export LANG=C.UTF-8
@@ -152,9 +186,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check
+cd ../buildavx2;
+make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1682439765
+export SOURCE_DATE_EPOCH=1685466761
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2 || :
@@ -167,6 +203,9 @@ cp %{_builddir}/zabbix-%{version}/ui/vendor/robrichards/xmlseclibs/LICENSE %{bui
 cp %{_builddir}/zabbix-%{version}/ui/vendor/symfony/deprecation-contracts/LICENSE %{buildroot}/usr/share/package-licenses/zabbix/af8293ef83442038de50440bcb3f3b9115d1fd6d || :
 cp %{_builddir}/zabbix-%{version}/ui/vendor/symfony/polyfill-ctype/LICENSE %{buildroot}/usr/share/package-licenses/zabbix/a4411dfb1c7ae6194779ea7170123d5c16548f72 || :
 cp %{_builddir}/zabbix-%{version}/ui/vendor/symfony/yaml/LICENSE %{buildroot}/usr/share/package-licenses/zabbix/8d82b67dee39e0a87e4edce4f7a335ce2e804107 || :
+pushd ../buildavx2/
+%make_install_v3
+popd
 %make_install
 mkdir -p %{buildroot}/usr/lib/systemd/system
 install -m 0644 %{SOURCE1} %{buildroot}/usr/lib/systemd/system/zabbix-agent.service
@@ -191,12 +230,18 @@ gzip < database/sqlite3/images.sql > %{buildroot}/usr/share/zabbix/sqlite3-image
 mkdir -p %{buildroot}/usr/share/zabbix/frontend-php
 cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 ## install_append end
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/zabbix_get
+/V3/usr/bin/zabbix_js
+/V3/usr/bin/zabbix_proxy
+/V3/usr/bin/zabbix_sender
+/V3/usr/bin/zabbix_server
 /usr/bin/zabbix_get
 /usr/bin/zabbix_js
 /usr/bin/zabbix_proxy
@@ -1002,7 +1047,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/helpers/CEncryptHelper.php
 /usr/share/zabbix/frontend-php/include/classes/helpers/CHintBoxHelper.php
 /usr/share/zabbix/frontend-php/include/classes/helpers/CHousekeepingHelper.php
-/usr/share/zabbix/frontend-php/include/classes/helpers/CHtml.php
 /usr/share/zabbix/frontend-php/include/classes/helpers/CMaintenanceHelper.php
 /usr/share/zabbix/frontend-php/include/classes/helpers/CMapHelper.php
 /usr/share/zabbix/frontend-php/include/classes/helpers/CMathHelper.php
@@ -1053,6 +1097,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/html/CFormList.php
 /usr/share/zabbix/frontend-php/include/classes/html/CHorList.php
 /usr/share/zabbix/frontend-php/include/classes/html/CHostAvailability.php
+/usr/share/zabbix/frontend-php/include/classes/html/CHtmlEntity.php
 /usr/share/zabbix/frontend-php/include/classes/html/CHtmlPage.php
 /usr/share/zabbix/frontend-php/include/classes/html/CHtmlPageHeader.php
 /usr/share/zabbix/frontend-php/include/classes/html/CIFrame.php
@@ -1485,7 +1530,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/js/browsers.js
 /usr/share/zabbix/frontend-php/js/chkbxrange.js
 /usr/share/zabbix/frontend-php/js/class.base-component.js
-/usr/share/zabbix/frontend-php/js/class.bbcode.js
 /usr/share/zabbix/frontend-php/js/class.browsertab.js
 /usr/share/zabbix/frontend-php/js/class.calendar.js
 /usr/share/zabbix/frontend-php/js/class.cdate.js
@@ -1615,6 +1659,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/sysmaps.php
 /usr/share/zabbix/frontend-php/templates.php
 /usr/share/zabbix/frontend-php/tests/api_json/ApiJsonTests.php
+/usr/share/zabbix/frontend-php/tests/api_json/common/CAPIScimTest.php
 /usr/share/zabbix/frontend-php/tests/api_json/common/testAuditlogCommon.php
 /usr/share/zabbix/frontend-php/tests/api_json/data/README
 /usr/share/zabbix/frontend-php/tests/api_json/data/data_test.sql
@@ -1657,6 +1702,8 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/api_json/testMap.php
 /usr/share/zabbix/frontend-php/tests/api_json/testProxy.php
 /usr/share/zabbix/frontend-php/tests/api_json/testRole.php
+/usr/share/zabbix/frontend-php/tests/api_json/testScimGroup.php
+/usr/share/zabbix/frontend-php/tests/api_json/testScimUser.php
 /usr/share/zabbix/frontend-php/tests/api_json/testScripts.php
 /usr/share/zabbix/frontend-php/tests/api_json/testServices.php
 /usr/share/zabbix/frontend-php/tests/api_json/testTagFiltering.php
@@ -1698,6 +1745,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/include/CWebTest.php
 /usr/share/zabbix/frontend-php/tests/include/CZabbixClient.php
 /usr/share/zabbix/frontend-php/tests/include/helpers/CAPIHelper.php
+/usr/share/zabbix/frontend-php/tests/include/helpers/CAPIScimHelper.php
 /usr/share/zabbix/frontend-php/tests/include/helpers/CConfigHelper.php
 /usr/share/zabbix/frontend-php/tests/include/helpers/CDBHelper.php
 /usr/share/zabbix/frontend-php/tests/include/helpers/CDataHelper.php
@@ -1800,6 +1848,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/common/testFormAuthentication.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testFormFilter.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testFormGraphs.php
+/usr/share/zabbix/frontend-php/tests/selenium/common/testFormGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testFormHost.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testFormMacros.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testFormPreprocessing.php
@@ -1832,6 +1881,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardSystemInformationWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardTopHostsWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardTriggerOverviewWidget.php
+/usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardURLWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardViewMode.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testFormTemplateDashboards.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testPageDashboardList.php
@@ -1863,6 +1913,12 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/graphs/testPageGraphPrototypes.php
 /usr/share/zabbix/frontend-php/tests/selenium/graphs/testPageHostGraph.php
 /usr/share/zabbix/frontend-php/tests/selenium/graphs/testPageMonitoringHostsGraph.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormHostGroup.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormHostGroupSearchPage.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormHostGroupStandalone.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormTemplateGroup.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormTemplateGroupSearchPage.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormTemplateGroupStandalone.php
 /usr/share/zabbix/frontend-php/tests/selenium/hosts/testFormHostFromConfiguration.php
 /usr/share/zabbix/frontend-php/tests/selenium/hosts/testFormHostFromMonitoring.php
 /usr/share/zabbix/frontend-php/tests/selenium/hosts/testFormHostFromStandalone.php
@@ -1998,7 +2054,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/testFormAdministrationHousekeeper.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormAdministrationUserGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormEventCorrelation.php
-/usr/share/zabbix/frontend-php/tests/selenium/testFormHostGroup.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormLogin.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormMaintenance.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormMap.php
@@ -2446,6 +2501,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 
 %files extras-client
 %defattr(-,root,root,-)
+/V3/usr/bin/zabbix_agentd
 /usr/bin/zabbix_agentd
 /usr/lib/systemd/system/zabbix-agent.service
 /usr/share/defaults/zabbix/zabbix_agentd.conf
