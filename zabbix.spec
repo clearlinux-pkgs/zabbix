@@ -4,10 +4,10 @@
 # Using build pattern: configure_ac
 #
 Name     : zabbix
-Version  : 6.4.3
-Release  : 47
-URL      : https://github.com/zabbix/zabbix/archive/6.4.3/zabbix-6.4.3.tar.gz
-Source0  : https://github.com/zabbix/zabbix/archive/6.4.3/zabbix-6.4.3.tar.gz
+Version  : 6.4.4
+Release  : 48
+URL      : https://github.com/zabbix/zabbix/archive/6.4.4/zabbix-6.4.4.tar.gz
+Source0  : https://github.com/zabbix/zabbix/archive/6.4.4/zabbix-6.4.4.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
 Source3  : zabbix.tmpfiles
@@ -104,11 +104,11 @@ services components for the zabbix package.
 
 
 %prep
-%setup -q -n zabbix-6.4.3
-cd %{_builddir}/zabbix-6.4.3
-%patch1 -p1
+%setup -q -n zabbix-6.4.4
+cd %{_builddir}/zabbix-6.4.4
+%patch -P 1 -p1
 pushd ..
-cp -a zabbix-6.4.3 buildavx2
+cp -a zabbix-6.4.4 buildavx2
 popd
 
 %build
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1685477797
+export SOURCE_DATE_EPOCH=1687891844
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -190,7 +190,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1685477797
+export SOURCE_DATE_EPOCH=1687891844
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2 || :
@@ -611,6 +611,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/app/views/administration.miscconfig.edit.php
 /usr/share/zabbix/frontend-php/app/views/administration.module.edit.php
 /usr/share/zabbix/frontend-php/app/views/administration.module.list.php
+/usr/share/zabbix/frontend-php/app/views/administration.proxy.list.php
 /usr/share/zabbix/frontend-php/app/views/administration.queue.details.php
 /usr/share/zabbix/frontend-php/app/views/administration.queue.overview.php
 /usr/share/zabbix/frontend-php/app/views/administration.queue.overview.proxy.php
@@ -664,6 +665,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/app/views/js/administration.mediatype.edit.js.php
 /usr/share/zabbix/frontend-php/app/views/js/administration.mediatype.list.js.php
 /usr/share/zabbix/frontend-php/app/views/js/administration.miscconfig.edit.js.php
+/usr/share/zabbix/frontend-php/app/views/js/administration.proxy.list.js.php
 /usr/share/zabbix/frontend-php/app/views/js/administration.regex.edit.js.php
 /usr/share/zabbix/frontend-php/app/views/js/administration.script.edit.js.php
 /usr/share/zabbix/frontend-php/app/views/js/administration.script.list.js.php
@@ -738,7 +740,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/app/views/js/popup.triggerexpr.js.php
 /usr/share/zabbix/frontend-php/app/views/js/popup.usergroupmapping.edit.js.php
 /usr/share/zabbix/frontend-php/app/views/js/popup.valuemap.edit.js.php
-/usr/share/zabbix/frontend-php/app/views/js/proxy.list.js.php
 /usr/share/zabbix/frontend-php/app/views/js/reports.actionlog.list.js.php
 /usr/share/zabbix/frontend-php/app/views/js/reports.auditlog.list.js.php
 /usr/share/zabbix/frontend-php/app/views/js/reports.scheduledreport.edit.js.php
@@ -818,7 +819,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/app/views/popup.usergroupmapping.edit.php
 /usr/share/zabbix/frontend-php/app/views/popup.valuemap.edit.php
 /usr/share/zabbix/frontend-php/app/views/popup.view.php
-/usr/share/zabbix/frontend-php/app/views/proxy.list.php
 /usr/share/zabbix/frontend-php/app/views/report.status.php
 /usr/share/zabbix/frontend-php/app/views/reports.actionlog.list.csv.php
 /usr/share/zabbix/frontend-php/app/views/reports.actionlog.list.php
@@ -1193,6 +1193,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectHostView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectItemPrototypeView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectItemView.php
+/usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectMapView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectMediaTypeView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectServiceView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldMultiSelectSlaView.php
@@ -1201,7 +1202,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldNumericBoxView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldRadioButtonListView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldRangeControlView.php
-/usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldSelectResourceView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldSelectView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldSeveritiesView.php
 /usr/share/zabbix/frontend-php/include/classes/html/widgets/CWidgetFieldTagsView.php
@@ -1413,6 +1413,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectHost.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectItem.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectItemPrototype.php
+/usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectMap.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectMediaType.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectService.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldMultiSelectSla.php
@@ -1423,7 +1424,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldRangeControl.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldReference.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldSelect.php
-/usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldSelectResource.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldSeverities.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldTags.php
 /usr/share/zabbix/frontend-php/include/classes/widgets/fields/CWidgetFieldTextArea.php
@@ -1703,6 +1703,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/api_json/testProxy.php
 /usr/share/zabbix/frontend-php/tests/api_json/testRole.php
 /usr/share/zabbix/frontend-php/tests/api_json/testScimGroup.php
+/usr/share/zabbix/frontend-php/tests/api_json/testScimServiceProviderConfig.php
 /usr/share/zabbix/frontend-php/tests/api_json/testScimUser.php
 /usr/share/zabbix/frontend-php/tests/api_json/testScripts.php
 /usr/share/zabbix/frontend-php/tests/api_json/testServices.php
@@ -2027,6 +2028,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/sla/testFormServicesSla.php
 /usr/share/zabbix/frontend-php/tests/selenium/sla/testPageServicesSla.php
 /usr/share/zabbix/frontend-php/tests/selenium/sla/testPageServicesSlaReport.php
+/usr/share/zabbix/frontend-php/tests/selenium/tags/testFormTagsConnectors.php
 /usr/share/zabbix/frontend-php/tests/selenium/tags/testFormTagsDiscoveredHost.php
 /usr/share/zabbix/frontend-php/tests/selenium/tags/testFormTagsHost.php
 /usr/share/zabbix/frontend-php/tests/selenium/tags/testFormTagsHostPrototype.php
