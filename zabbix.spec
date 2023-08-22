@@ -4,10 +4,10 @@
 # Using build pattern: configure_ac
 #
 Name     : zabbix
-Version  : 6.4.5
-Release  : 49
-URL      : https://github.com/zabbix/zabbix/archive/6.4.5/zabbix-6.4.5.tar.gz
-Source0  : https://github.com/zabbix/zabbix/archive/6.4.5/zabbix-6.4.5.tar.gz
+Version  : 6.4.6
+Release  : 50
+URL      : https://github.com/zabbix/zabbix/archive/6.4.6/zabbix-6.4.6.tar.gz
+Source0  : https://github.com/zabbix/zabbix/archive/6.4.6/zabbix-6.4.6.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
 Source3  : zabbix.tmpfiles
@@ -104,11 +104,11 @@ services components for the zabbix package.
 
 
 %prep
-%setup -q -n zabbix-6.4.5
-cd %{_builddir}/zabbix-6.4.5
+%setup -q -n zabbix-6.4.6
+cd %{_builddir}/zabbix-6.4.6
 %patch -P 1 -p1
 pushd ..
-cp -a zabbix-6.4.5 buildavx2
+cp -a zabbix-6.4.6 buildavx2
 popd
 
 %build
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1690821614
+export SOURCE_DATE_EPOCH=1692720643
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -190,7 +190,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1690821614
+export SOURCE_DATE_EPOCH=1692720643
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2 || :
@@ -1772,7 +1772,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/include/web/elements/CCompositeInputElement.php
 /usr/share/zabbix/frontend-php/tests/include/web/elements/CDashboardElement.php
 /usr/share/zabbix/frontend-php/tests/include/web/elements/CDropdownElement.php
-/usr/share/zabbix/frontend-php/tests/include/web/elements/CFilterTabElement.php
+/usr/share/zabbix/frontend-php/tests/include/web/elements/CFilterElement.php
 /usr/share/zabbix/frontend-php/tests/include/web/elements/CFormElement.php
 /usr/share/zabbix/frontend-php/tests/include/web/elements/CGridFormElement.php
 /usr/share/zabbix/frontend-php/tests/include/web/elements/CHostInterfaceElement.php
@@ -1858,6 +1858,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/common/testItemTest.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testMassUpdateItems.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testPageApiTokens.php
+/usr/share/zabbix/frontend-php/tests/selenium/common/testPageGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testSlaReport.php
 /usr/share/zabbix/frontend-php/tests/selenium/common/testSystemInformation.php
 /usr/share/zabbix/frontend-php/tests/selenium/connectors/testFormConnectors.php
@@ -1871,6 +1872,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardGeomapWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardGraphPrototypeWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardGraphWidget.php
+/usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardGraphWidgetSelectedHosts.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardHostAvailabilityWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardItemValueWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardPages.php
@@ -1893,6 +1895,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/DiscoveredHosts.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/EntitiesTags.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/ExecuteNowAction.php
+/usr/share/zabbix/frontend-php/tests/selenium/data/sources/HostTemplateGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/LoginUsers.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/Proxies.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/ScheduledReports.php
@@ -1900,6 +1903,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/Sla.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/TagFilter.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/TopHostsWidget.php
+/usr/share/zabbix/frontend-php/tests/selenium/data/sources/WebScenarios.php
 /usr/share/zabbix/frontend-php/tests/selenium/eventCorrelation/testFormEventCorrelation.php
 /usr/share/zabbix/frontend-php/tests/selenium/eventCorrelation/testPageEventCorrelation.php
 /usr/share/zabbix/frontend-php/tests/selenium/filterTabs/testFormFilterHosts.php
@@ -1921,6 +1925,8 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormTemplateGroup.php
 /usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormTemplateGroupSearchPage.php
 /usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testFormTemplateGroupStandalone.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testPageHostGroups.php
+/usr/share/zabbix/frontend-php/tests/selenium/hostAndTemplateGroups/testPageTemplateGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/hosts/testFormHostFromConfiguration.php
 /usr/share/zabbix/frontend-php/tests/selenium/hosts/testFormHostFromMonitoring.php
 /usr/share/zabbix/frontend-php/tests/selenium/hosts/testFormHostFromStandalone.php
@@ -2112,8 +2118,8 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/users/testFormUserPermissions.php
 /usr/share/zabbix/frontend-php/tests/selenium/users/testFormUserProfile.php
 /usr/share/zabbix/frontend-php/tests/selenium/users/testPageUsers.php
-/usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testFormWeb.php
-/usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testFormWebStep.php
+/usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testFormWebScenario.php
+/usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testFormWebScenarioStep.php
 /usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testInheritanceWeb.php
 /usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testPageMonitoringWeb.php
 /usr/share/zabbix/frontend-php/tests/templates/zabbix.conf.php
@@ -2473,6 +2479,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/widgets/trigover/Widget.php
 /usr/share/zabbix/frontend-php/widgets/trigover/actions/WidgetView.php
 /usr/share/zabbix/frontend-php/widgets/trigover/assets/js/class.widget.js
+/usr/share/zabbix/frontend-php/widgets/trigover/includes/ViewHelper.php
 /usr/share/zabbix/frontend-php/widgets/trigover/includes/WidgetForm.php
 /usr/share/zabbix/frontend-php/widgets/trigover/manifest.json
 /usr/share/zabbix/frontend-php/widgets/trigover/partials/table.left.php
