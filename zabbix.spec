@@ -4,10 +4,10 @@
 # Using build pattern: configure_ac
 #
 Name     : zabbix
-Version  : 6.4.6
-Release  : 50
-URL      : https://github.com/zabbix/zabbix/archive/6.4.6/zabbix-6.4.6.tar.gz
-Source0  : https://github.com/zabbix/zabbix/archive/6.4.6/zabbix-6.4.6.tar.gz
+Version  : 6.4.7
+Release  : 51
+URL      : https://github.com/zabbix/zabbix/archive/6.4.7/zabbix-6.4.7.tar.gz
+Source0  : https://github.com/zabbix/zabbix/archive/6.4.7/zabbix-6.4.7.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
 Source3  : zabbix.tmpfiles
@@ -104,11 +104,11 @@ services components for the zabbix package.
 
 
 %prep
-%setup -q -n zabbix-6.4.6
-cd %{_builddir}/zabbix-6.4.6
+%setup -q -n zabbix-6.4.7
+cd %{_builddir}/zabbix-6.4.7
 %patch -P 1 -p1
 pushd ..
-cp -a zabbix-6.4.6 buildavx2
+cp -a zabbix-6.4.7 buildavx2
 popd
 
 %build
@@ -125,7 +125,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1692720643
+export SOURCE_DATE_EPOCH=1695748836
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -190,7 +190,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1692720643
+export SOURCE_DATE_EPOCH=1695748836
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2 || :
@@ -1463,7 +1463,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/triggers.inc.php
 /usr/share/zabbix/frontend-php/include/users.inc.php
 /usr/share/zabbix/frontend-php/include/validate.inc.php
-/usr/share/zabbix/frontend-php/include/views/configuration.copy.elements.php
 /usr/share/zabbix/frontend-php/include/views/configuration.graph.edit.php
 /usr/share/zabbix/frontend-php/include/views/configuration.graph.list.php
 /usr/share/zabbix/frontend-php/include/views/configuration.host.discovery.edit.php
@@ -1490,7 +1489,6 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/views/js/common.init.js.php
 /usr/share/zabbix/frontend-php/include/views/js/common.item.edit.js.php
 /usr/share/zabbix/frontend-php/include/views/js/common.template.edit.js.php
-/usr/share/zabbix/frontend-php/include/views/js/configuration.copy.elements.js.php
 /usr/share/zabbix/frontend-php/include/views/js/configuration.graph.edit.js.php
 /usr/share/zabbix/frontend-php/include/views/js/configuration.graph.list.js.php
 /usr/share/zabbix/frontend-php/include/views/js/configuration.host.discovery.edit.js.php
@@ -1876,6 +1874,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardHostAvailabilityWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardItemValueWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardPages.php
+/usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardPlainTextWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardProblemsBySeverityWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardProblemsWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboard/testDashboardProblemsWidgetDisplay.php
@@ -1897,6 +1896,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/ExecuteNowAction.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/HostTemplateGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/LoginUsers.php
+/usr/share/zabbix/frontend-php/tests/selenium/data/sources/NetworkDiscovery.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/Proxies.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/ScheduledReports.php
 /usr/share/zabbix/frontend-php/tests/selenium/data/sources/Services.php
@@ -1958,6 +1958,8 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/macros/testFormMacrosHost.php
 /usr/share/zabbix/frontend-php/tests/selenium/macros/testFormMacrosHostPrototype.php
 /usr/share/zabbix/frontend-php/tests/selenium/macros/testFormMacrosTemplate.php
+/usr/share/zabbix/frontend-php/tests/selenium/maintenance/testFormMaintenance.php
+/usr/share/zabbix/frontend-php/tests/selenium/maintenance/testPageMaintenance.php
 /usr/share/zabbix/frontend-php/tests/selenium/mediaTypes/testFormAdministrationMediaTypeMessageTemplates.php
 /usr/share/zabbix/frontend-php/tests/selenium/mediaTypes/testFormAdministrationMediaTypeWebhook.php
 /usr/share/zabbix/frontend-php/tests/selenium/mediaTypes/testFormAdministrationMediaTypes.php
@@ -2002,6 +2004,8 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/modules/module_number_6/Module.php
 /usr/share/zabbix/frontend-php/tests/selenium/modules/module_number_6/manifest.json
 /usr/share/zabbix/frontend-php/tests/selenium/monitoring/testPageMonitoringLatestData.php
+/usr/share/zabbix/frontend-php/tests/selenium/networkDiscovery/testFormNetworkDiscovery.php
+/usr/share/zabbix/frontend-php/tests/selenium/networkDiscovery/testPageNetworkDiscovery.php
 /usr/share/zabbix/frontend-php/tests/selenium/permissions/testPermissionsWithoutCSRF.php
 /usr/share/zabbix/frontend-php/tests/selenium/permissions/testTagBasedPermissions.php
 /usr/share/zabbix/frontend-php/tests/selenium/permissions/testUrlUserPermissions.php
@@ -2063,9 +2067,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/testFormAdministrationHousekeeper.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormAdministrationUserGroups.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormLogin.php
-/usr/share/zabbix/frontend-php/tests/selenium/testFormMaintenance.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormMap.php
-/usr/share/zabbix/frontend-php/tests/selenium/testFormNetworkDiscovery.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormSetup.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormSysmap.php
 /usr/share/zabbix/frontend-php/tests/selenium/testFormTabIndicators.php
@@ -2086,11 +2088,9 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/testPageBrowserWarning.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageHistory.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageInventory.php
-/usr/share/zabbix/frontend-php/tests/selenium/testPageMaintenance.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageMaps.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageMassUpdateItemPrototypes.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageMassUpdateItems.php
-/usr/share/zabbix/frontend-php/tests/selenium/testPageNetworkDiscovery.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageQueueDetails.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageQueueOverview.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageQueueOverviewByProxy.php
@@ -2122,6 +2122,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testFormWebScenarioStep.php
 /usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testInheritanceWeb.php
 /usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testPageMonitoringWeb.php
+/usr/share/zabbix/frontend-php/tests/selenium/webScenarios/testPageMonitoringWebDetails.php
 /usr/share/zabbix/frontend-php/tests/templates/zabbix.conf.php
 /usr/share/zabbix/frontend-php/tests/unit/bootstrap.php
 /usr/share/zabbix/frontend-php/tests/unit/include/classes/api/helpers/CApiTagHelperTest.php
