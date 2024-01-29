@@ -32,8 +32,8 @@ Configure miss: function sysctl (KERN_MAXPROC)
 Configure miss: function sysctl (KERN_MAXPROC)
 Configure miss: function sysctlbyname()
 Configure miss: function sysctlbyname()
-Configure miss: knlist.h
-Configure miss: knlist.h
+Configure miss: gcc option to enable large file support
+Configure miss: gcc option to enable large file support
 Configure miss: kstat.h
 Configure miss: kstat.h
 Configure miss: kvm.h
@@ -62,8 +62,6 @@ Configure miss: mach/mach_host.h
 Configure miss: mach/mach_host.h
 Configure miss: main in -lkvm
 Configure miss: main in -lkvm
-Configure miss: mtent.h
-Configure miss: mtent.h
 Configure miss: net/if_mib.h
 Configure miss: net/if_mib.h
 Configure miss: nlist.h
