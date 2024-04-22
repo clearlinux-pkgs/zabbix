@@ -1,5 +1,4 @@
-/builddir/build/BUILDROOT/zabbix-6.4.13-57.x86_64/etc/:
-/builddir/build/BUILDROOT/zabbix-6.4.13-57.x86_64/etc/zabbix_proxy.conf.d:
+/etc/:
+/etc/zabbix_proxy.conf.d:
 zabbix_proxy.conf
 zabbix_proxy.conf.d
-zabbix_proxy.conf.d' ']'
