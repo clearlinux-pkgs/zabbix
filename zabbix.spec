@@ -6,10 +6,10 @@
 # autospec commit: 5905be9
 #
 Name     : zabbix
-Version  : 6.4.14
-Release  : 58
-URL      : https://github.com/zabbix/zabbix/archive/6.4.14/zabbix-6.4.14.tar.gz
-Source0  : https://github.com/zabbix/zabbix/archive/6.4.14/zabbix-6.4.14.tar.gz
+Version  : 6.4.15
+Release  : 59
+URL      : https://github.com/zabbix/zabbix/archive/6.4.15/zabbix-6.4.15.tar.gz
+Source0  : https://github.com/zabbix/zabbix/archive/6.4.15/zabbix-6.4.15.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
 Source3  : zabbix.tmpfiles
@@ -106,11 +106,11 @@ services components for the zabbix package.
 
 
 %prep
-%setup -q -n zabbix-6.4.14
-cd %{_builddir}/zabbix-6.4.14
+%setup -q -n zabbix-6.4.15
+cd %{_builddir}/zabbix-6.4.15
 %patch -P 1 -p1
 pushd ..
-cp -a zabbix-6.4.14 buildavx2
+cp -a zabbix-6.4.15 buildavx2
 popd
 
 %build
@@ -127,7 +127,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1713813505
+export SOURCE_DATE_EPOCH=1716405142
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -214,7 +214,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1713813505
+export SOURCE_DATE_EPOCH=1716405142
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/26c435e19b7997e6327d77d52c4a510613c857d2 || :

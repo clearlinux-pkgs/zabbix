@@ -2,3 +2,4 @@
 /etc/zabbix_proxy.conf.d:
 zabbix_proxy.conf
 zabbix_proxy.conf.d
+zabbix_proxy.conf.d' ']'
