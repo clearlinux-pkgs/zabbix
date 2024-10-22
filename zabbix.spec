@@ -6,10 +6,10 @@
 # autospec commit: f35655a
 #
 Name     : zabbix
-Version  : 7.0.4
-Release  : 64
-URL      : https://github.com/zabbix/zabbix/archive/7.0.4/zabbix-7.0.4.tar.gz
-Source0  : https://github.com/zabbix/zabbix/archive/7.0.4/zabbix-7.0.4.tar.gz
+Version  : 7.0.5
+Release  : 65
+URL      : https://github.com/zabbix/zabbix/archive/7.0.5/zabbix-7.0.5.tar.gz
+Source0  : https://github.com/zabbix/zabbix/archive/7.0.5/zabbix-7.0.5.tar.gz
 Source1  : zabbix-agent.service
 Source2  : zabbix-server.service
 Source3  : zabbix.tmpfiles
@@ -105,11 +105,11 @@ services components for the zabbix package.
 
 
 %prep
-%setup -q -n zabbix-7.0.4
-cd %{_builddir}/zabbix-7.0.4
+%setup -q -n zabbix-7.0.5
+cd %{_builddir}/zabbix-7.0.5
 %patch -P 1 -p1
 pushd ..
-cp -a zabbix-7.0.4 buildavx2
+cp -a zabbix-7.0.5 buildavx2
 popd
 
 %build
@@ -126,7 +126,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1727176033
+export SOURCE_DATE_EPOCH=1729607807
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -213,7 +213,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1727176033
+export SOURCE_DATE_EPOCH=1729607807
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/zabbix
 cp %{_builddir}/zabbix-%{version}/COPYING %{buildroot}/usr/share/package-licenses/zabbix/4c665f87b5dc2e7d26279c4b48968d085e1ace32 || :
@@ -1042,6 +1042,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/include/classes/api/clients/CApiClient.php
 /usr/share/zabbix/frontend-php/include/classes/api/clients/CLocalApiClient.php
 /usr/share/zabbix/frontend-php/include/classes/api/helpers/CApiHostHelper.php
+/usr/share/zabbix/frontend-php/include/classes/api/helpers/CApiPskHelper.php
 /usr/share/zabbix/frontend-php/include/classes/api/helpers/CApiTagHelper.php
 /usr/share/zabbix/frontend-php/include/classes/api/item_types/CItemType.php
 /usr/share/zabbix/frontend-php/include/classes/api/item_types/CItemTypeBrowser.php
@@ -1841,6 +1842,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/api_json/testAuditlogUser.php
 /usr/share/zabbix/frontend-php/tests/api_json/testAuditlogUserGroups.php
 /usr/share/zabbix/frontend-php/tests/api_json/testAuthentication.php
+/usr/share/zabbix/frontend-php/tests/api_json/testAutoregistration.php
 /usr/share/zabbix/frontend-php/tests/api_json/testConfiguration.php
 /usr/share/zabbix/frontend-php/tests/api_json/testConnector.php
 /usr/share/zabbix/frontend-php/tests/api_json/testCorrelation.php
@@ -2107,6 +2109,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/dashboardWidgets/testDashboardTopTriggersWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboardWidgets/testDashboardTriggerOverviewWidget.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboardWidgets/testDashboardURLWidget.php
+/usr/share/zabbix/frontend-php/tests/selenium/dashboardWidgets/testDashboardWidgetCommunication.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboards/testDashboardsForm.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboards/testDashboardsHostDashboardPage.php
 /usr/share/zabbix/frontend-php/tests/selenium/dashboards/testDashboardsListPage.php
@@ -2271,6 +2274,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/preprocessing/testFormPreprocessingItemPrototype.php
 /usr/share/zabbix/frontend-php/tests/selenium/preprocessing/testFormPreprocessingLowLevelDiscovery.php
 /usr/share/zabbix/frontend-php/tests/selenium/preprocessing/testFormPreprocessingTest.php
+/usr/share/zabbix/frontend-php/tests/selenium/problems/testCauseAndSymptomEvents.php
 /usr/share/zabbix/frontend-php/tests/selenium/problems/testFormUpdateProblem.php
 /usr/share/zabbix/frontend-php/tests/selenium/problems/testPageProblems.php
 /usr/share/zabbix/frontend-php/tests/selenium/proxies/testFormAdministrationProxies.php
@@ -2326,6 +2330,7 @@ cp -av ./ui/* %{buildroot}/usr/share/zabbix/frontend-php/
 /usr/share/zabbix/frontend-php/tests/selenium/testFormTabIndicators.php
 /usr/share/zabbix/frontend-php/tests/selenium/testGeneric.php
 /usr/share/zabbix/frontend-php/tests/selenium/testLanguage.php
+/usr/share/zabbix/frontend-php/tests/selenium/testPSKEncryption.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageBrowserWarning.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageInventory.php
 /usr/share/zabbix/frontend-php/tests/selenium/testPageSearch.php
